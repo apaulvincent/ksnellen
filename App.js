@@ -143,6 +143,21 @@ export default function App() {
     );
   };
 
+  const CloseButton = ({ onPress }) => {
+    const [isFocused, setIsFocused] = useState(false);
+    return (
+      <TouchableOpacity 
+        style={[styles.btn, styles.closeBtn, isFocused && styles.tvFocus]} 
+        onPress={onPress}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        activeOpacity={0.7}
+      >
+        <Text style={styles.btnText}>Close Drawer</Text>
+      </TouchableOpacity>
+    );
+  };
+
   const ColorButton = ({ color, onPress, selected }) => {
     const [isFocused, setIsFocused] = useState(false);
     return (
@@ -255,6 +270,7 @@ export default function App() {
           <TouchableOpacity 
             style={styles.overlayDismiss} 
             activeOpacity={1} 
+            focusable={false}
             onPress={() => toggleSettings(false)} 
           />
           <Animated.View style={[styles.settingsPanel, { transform: [{ translateX: slideAnim }] }]}>
@@ -328,12 +344,7 @@ export default function App() {
               </View>
             </ScrollView>
             
-            <TouchableOpacity 
-              style={[styles.btn, styles.closeBtn]} 
-              onPress={() => toggleSettings(false)}
-            >
-              <Text style={styles.btnText}>Close Drawer</Text>
-            </TouchableOpacity>
+            <CloseButton onPress={() => toggleSettings(false)} />
           </Animated.View>
         </View>
       </Modal>
@@ -505,6 +516,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 10,
-    scale: 1.05,
+    elevation: 10,
+    transform: [{ scale: 1.05 }],
   }
 });
